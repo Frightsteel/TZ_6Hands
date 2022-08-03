@@ -12,6 +12,8 @@ namespace StarterAssets
 		public Vector2 look;
 		public bool jump;
 		public bool sprint;
+		public bool shoot;
+		public bool skill;
 
 		[Header("Movement Settings")]
 		public bool analogMovement;
@@ -38,6 +40,16 @@ namespace StarterAssets
 		{
 			JumpInput(value.isPressed);
 		}
+		
+		public void OnShoot(InputValue value)
+		{
+			ShootInput(value.isPressed);
+		}
+
+		public void OnSkill(InputValue value)
+		{
+			SkillInput(value.isPressed);
+		}
 
 		public void OnSprint(InputValue value)
 		{
@@ -59,6 +71,15 @@ namespace StarterAssets
 		public void JumpInput(bool newJumpState)
 		{
 			jump = newJumpState;
+		}
+		public void ShootInput(bool newShootState)
+		{
+			shoot = newShootState;
+		}
+
+		public void SkillInput(bool newSkillState)
+		{
+			skill = newSkillState;
 		}
 
 		public void SprintInput(bool newSprintState)
