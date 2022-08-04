@@ -6,67 +6,128 @@ using UnityEngine.InputSystem;
 
 public class PlayerShooterController : MonoBehaviour
 {
-    [SerializeField] private StarterAssetsInputs starterAssetsInputs;
-    [SerializeField] private ThirdPersonController thirdPersonController;//temp
+    [SerializeField] private StarterAssetsInputs _input;
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
     [SerializeField] private Transform debugTransform;
     [SerializeField] private Transform fireballProjectilePF;
     [SerializeField] private Transform spawnFireballPosition;
 
-    //private InputActionReference actionReference;
+    [SerializeField] private Animator _animator;
+
+    // animations IDs
+    private int _animIDSkill;
+
+    private bool _hasAnimator;
+
+    private float timer = 1f;
+    private bool timerON;
+
+    [SerializeField] private float skillDamage;
+    private float skillDamageSUM;
+
+    private void Start()
+    {
+        _hasAnimator = TryGetComponent(out _animator);
+
+        AssignAnimationIDs();
+    }
 
     private void Update()
     {
-        Vector3 mouseWorldPosition = Vector3.zero;
-        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
-        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
-        
-        if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask))
-        {
-            debugTransform.position = raycastHit.point;
-            mouseWorldPosition = raycastHit.point;
-        }
+        _hasAnimator = TryGetComponent(out _animator);
 
-        if (starterAssetsInputs.shoot)
+        Shoot();
+        Skill();
+        Timer();
+    }
+
+    private void AssignAnimationIDs()
+    {
+        _animIDSkill = Animator.StringToHash("Cast");
+    }
+
+    private void Shoot()
+    {
+        if (_input.shoot)
         {
-            Debug.Log("Shoot pressed ");
+            Vector3 mouseWorldPosition = GetMouseWorldPosition();
             //Rotates player
-            Vector3 worldAimTarget = mouseWorldPosition;
-            worldAimTarget.y = transform.position.y;
-            Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
-            transform.forward = Vector3.Lerp(transform.forward, aimDirection, 1f);
+            RotatePlayerToLookAtPoint(mouseWorldPosition);
 
             //Spawn and rotates projectile
             Vector3 aimDir = (mouseWorldPosition - spawnFireballPosition.position).normalized;
             Instantiate(fireballProjectilePF, spawnFireballPosition.position, Quaternion.LookRotation(aimDir, Vector3.down));//temp, then pool
-            starterAssetsInputs.shoot = false;
-        }
-
-        if (starterAssetsInputs.skill)
-        {
-            Debug.Log("Skill pressed ");
-            starterAssetsInputs.skill = false;
-            Debug.Log("Skill canceled ");
-            //Use anim
-            //Use skill
+            
+            _input.shoot = false;
         }
     }
 
-    public void Jump(InputAction.CallbackContext context)
+    private void RotatePlayerToLookAtPoint(Vector3 worldPoint)
     {
-        if (context.started)
+        Vector3 worldAimTarget = worldPoint;
+        worldAimTarget.y = transform.position.y;
+        Vector3 aimDirection = (worldAimTarget - transform.position).normalized;
+        transform.forward = Vector3.Lerp(transform.forward, aimDirection, 1f);
+    }
+
+    private Vector3 GetMouseWorldPosition()
+    {
+        Vector2 screenCenterPoint = new Vector2(Screen.width / 2f, Screen.height / 2f);
+        Ray ray = Camera.main.ScreenPointToRay(screenCenterPoint);
+
+        if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask))
         {
-            //Debug.Log("test1");
-            //thirdPersonController.JumpAndGravity();
-            Debug.Log("Ge");
+            debugTransform.position = raycastHit.point;
+            return raycastHit.point;
         }
-        if (context.performed)
+        return Vector3.zero;
+    }
+
+    private void Skill()
+    {
+        if (_input.skill && !timerON)
         {
-            Debug.Log("Genshin impact top game");
+            timerON = true;
+
+            //Rotate player to look at aim point
+            RotatePlayerToLookAtPoint(GetMouseWorldPosition());
+
+            //character anim
+            if (_hasAnimator)
+            {
+                //_animator.SetLayerWeight(1, 1f);
+                _animator.SetBool(_animIDSkill, true);
+            }
         }
-        if (context.canceled)
+        else if (!_input.skill && timerON)
         {
-            Debug.Log("Getop game");
+            timerON = false;
+            
+            //character anim
+            if (_hasAnimator)
+            {
+                //_animator.SetLayerWeight(1, 0f);
+                _animator.SetBool(_animIDSkill, false);
+            }
         }
+    }
+
+    private void Timer()
+    {
+        if (timerON)
+        {
+            timer += Time.deltaTime;
+        }
+        else
+        {
+            Damage();
+            //Debug.Log(skillDamageSUM);
+            timer = 1f;
+        }
+    }
+
+    private void Damage()
+    {
+        skillDamageSUM = Mathf.Pow(skillDamage, timer);
     }
 }
