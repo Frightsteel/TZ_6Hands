@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Photon.Pun;
 
 public class PlayerShooterController : MonoBehaviour
 {
@@ -27,19 +28,25 @@ public class PlayerShooterController : MonoBehaviour
     [SerializeField] private float skillDamage;
     private float skillDamageSUM;
 
+    private PhotonView view;
+
     private void Start()
     {
         _hasAnimator = TryGetComponent(out _animator);
+        view = GetComponent<PhotonView>();
 
         AssignAnimationIDs();
     }
 
     private void Update()
     {
-        _hasAnimator = TryGetComponent(out _animator);
+        if (view.IsMine)
+        {
+            _hasAnimator = TryGetComponent(out _animator);
 
-        //Shoot();
-        Skill();
+            //Shoot();
+            Skill();
+        }
     }
 
     private void AssignAnimationIDs()
