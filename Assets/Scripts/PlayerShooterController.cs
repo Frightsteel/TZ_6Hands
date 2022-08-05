@@ -8,11 +8,12 @@ public class PlayerShooterController : MonoBehaviour
 {
     [SerializeField] private StarterAssetsInputs _input;
     [SerializeField] private LayerMask aimColliderLayerMask = new LayerMask();
-    [SerializeField] private Transform debugTransform;
     [SerializeField] private Transform fireballProjectilePF;
     [SerializeField] private Transform spawnFireballPosition;
 
     [SerializeField] private Animator _animator;
+
+    private Transform currentProjectile;
 
     // animations IDs
     private int _animIDSkill;
@@ -36,7 +37,7 @@ public class PlayerShooterController : MonoBehaviour
     {
         _hasAnimator = TryGetComponent(out _animator);
 
-        Shoot();
+        //Shoot();
         Skill();
         Timer();
     }
@@ -57,7 +58,7 @@ public class PlayerShooterController : MonoBehaviour
             //Spawn and rotates projectile
             Vector3 aimDir = (mouseWorldPosition - spawnFireballPosition.position).normalized;
             Instantiate(fireballProjectilePF, spawnFireballPosition.position, Quaternion.LookRotation(aimDir, Vector3.down));//temp, then pool
-            
+            Debug.Log("Created");
             _input.shoot = false;
         }
     }
@@ -77,10 +78,15 @@ public class PlayerShooterController : MonoBehaviour
 
         if (Physics.Raycast(ray, out RaycastHit raycastHit, 999f, aimColliderLayerMask))
         {
-            debugTransform.position = raycastHit.point;
             return raycastHit.point;
         }
         return Vector3.zero;
+    }
+
+    private Transform SpawnProjectile()
+    {
+        Vector3 aimDir = (GetMouseWorldPosition() - spawnFireballPosition.position).normalized;
+        return Instantiate(fireballProjectilePF, spawnFireballPosition.position, Quaternion.LookRotation(aimDir, Vector3.up));//temp, then pool
     }
 
     private void Skill()
@@ -89,24 +95,32 @@ public class PlayerShooterController : MonoBehaviour
         {
             timerON = true;
 
-            //Rotate player to look at aim point
+            //rotate player to look at aim point
             RotatePlayerToLookAtPoint(GetMouseWorldPosition());
+
+            //start to cast the skill
+            currentProjectile = SpawnProjectile();
+            currentProjectile.GetComponent<Projectile>().spawnPoint = spawnFireballPosition;
 
             //character anim
             if (_hasAnimator)
             {
-                //_animator.SetLayerWeight(1, 1f);
                 _animator.SetBool(_animIDSkill, true);
             }
         }
         else if (!_input.skill && timerON)
         {
             timerON = false;
-            
+
+            //rotate player to look at aim point
+            //RotatePlayerToLookAtPoint(GetMouseWorldPosition());
+
+            //drop current projectile
+            //currentProjectile.GetComponent<Projectile>().isCasted = true; // after anim
+
             //character anim
             if (_hasAnimator)
             {
-                //_animator.SetLayerWeight(1, 0f);
                 _animator.SetBool(_animIDSkill, false);
             }
         }
@@ -120,14 +134,26 @@ public class PlayerShooterController : MonoBehaviour
         }
         else
         {
-            Damage();
+            MathDamage();
             //Debug.Log(skillDamageSUM);
             timer = 1f;
         }
     }
 
-    private void Damage()
+    private void MathDamage()
     {
         skillDamageSUM = Mathf.Pow(skillDamage, timer);
+    }
+
+    public void EnableCast()
+    {
+        currentProjectile.GetComponent<Projectile>().isCasted = false;
+    }
+
+    public void DesableCast()
+    {
+        RotatePlayerToLookAtPoint(GetMouseWorldPosition());
+        currentProjectile.LookAt(GetMouseWorldPosition());
+        currentProjectile.GetComponent<Projectile>().isCasted = true;
     }
 }

@@ -5,17 +5,31 @@ using UnityEngine;
 public class Projectile : MonoBehaviour
 {
     [Space]
-    [SerializeField] private Rigidbody rb;
-    [Space]
     [SerializeField] private float speed;
 
-    private void Start()
+    public Transform spawnPoint;
+
+    public bool isCasted = false;
+
+    private void Update()
     {
-        rb.velocity = transform.forward * speed;
+        if (!isCasted)
+        {
+            transform.position = spawnPoint.position;
+        }
+        if (isCasted)
+        {
+            transform.position += transform.forward * (speed * Time.deltaTime);
+        }
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        Destroy(gameObject);//temp;, then pool
+        if (other.gameObject.layer != 3)
+        {
+            Debug.Log(other.gameObject.layer);
+            Debug.Log("test1");
+            Destroy(gameObject);//temp;, then pool
+        }
     }
 }
