@@ -19,6 +19,7 @@ public class PlayerShooterController : MonoBehaviour
     private int _animIDSkill;
 
     private bool _hasAnimator;
+    private bool isCasting = false;
 
     private float timer = 1f;
     private bool timerON;
@@ -39,7 +40,6 @@ public class PlayerShooterController : MonoBehaviour
 
         //Shoot();
         Skill();
-        Timer();
     }
 
     private void AssignAnimationIDs()
@@ -91,56 +91,53 @@ public class PlayerShooterController : MonoBehaviour
 
     private void Skill()
     {
-        if (_input.skill && !timerON)
+        if (_input.skill)
         {
-            timerON = true;
-
             //rotate player to look at aim point
             RotatePlayerToLookAtPoint(GetMouseWorldPosition());
 
-            //start to cast the skill
-            currentProjectile = SpawnProjectile();
-            currentProjectile.GetComponent<Projectile>().spawnPoint = spawnFireballPosition;
-
-            //character anim
-            if (_hasAnimator)
+            if (!isCasting)
             {
-                _animator.SetBool(_animIDSkill, true);
+                isCasting = true;
+
+                timer = Time.time;
+
+                //start to cast the skill
+                currentProjectile = SpawnProjectile();
+                currentProjectile.GetComponent<Projectile>().spawnPoint = spawnFireballPosition;
+
+                //character anim
+                if (_hasAnimator)
+                {
+                    _animator.SetBool(_animIDSkill, true);
+                }
             }
         }
-        else if (!_input.skill && timerON)
+        else if (!_input.skill)
         {
-            timerON = false;
-
             //rotate player to look at aim point
             //RotatePlayerToLookAtPoint(GetMouseWorldPosition());
 
             //drop current projectile
             //currentProjectile.GetComponent<Projectile>().isCasted = true; // after anim
 
-            //character anim
-            if (_hasAnimator)
+            if (isCasting)
             {
-                _animator.SetBool(_animIDSkill, false);
+                isCasting = false;
+
+                timer = Time.time - timer;
+                MathDamage(timer);
+
+                //character anim
+                if (_hasAnimator)
+                {
+                    _animator.SetBool(_animIDSkill, false);
+                }
             }
         }
     }
 
-    private void Timer()
-    {
-        if (timerON)
-        {
-            timer += Time.deltaTime;
-        }
-        else
-        {
-            MathDamage();
-            //Debug.Log(skillDamageSUM);
-            timer = 1f;
-        }
-    }
-
-    private void MathDamage()
+    private void MathDamage(float timer)
     {
         skillDamageSUM = Mathf.Pow(skillDamage, timer);
     }
@@ -150,7 +147,7 @@ public class PlayerShooterController : MonoBehaviour
         currentProjectile.GetComponent<Projectile>().isCasted = false;
     }
 
-    public void DesableCast()
+    public void DisableCast()
     {
         RotatePlayerToLookAtPoint(GetMouseWorldPosition());
         currentProjectile.LookAt(GetMouseWorldPosition());

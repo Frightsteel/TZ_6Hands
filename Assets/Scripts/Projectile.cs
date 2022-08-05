@@ -27,8 +27,6 @@ public class Projectile : MonoBehaviour
     {
         if (other.gameObject.layer != 3)
         {
-            Debug.Log(other.gameObject.layer);
-            Debug.Log("test1");
             Destroy(gameObject);//temp;, then pool
         }
     }
