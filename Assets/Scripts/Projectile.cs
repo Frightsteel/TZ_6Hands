@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Photon.Pun;
 
 public class Projectile : MonoBehaviour
 {
     [Space]
     [SerializeField] private float speed;
-
+    [Space]
     public Transform spawnPoint;
-
+    public int castUser;
+    public float damage;
     public bool isCasted = false;
 
     private void Update()
@@ -25,9 +27,19 @@ public class Projectile : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.layer != 3)
+        if (other.GetComponent<PhotonView>() != null)
         {
-            Destroy(gameObject);//temp;, then pool
+            if (other.GetComponent<PhotonView>().ViewID != castUser)
+            {
+                other.GetComponent<IDamageable>().TakeDamage(damage);
+                gameObject.SetActive(false);
+                isCasted = false;
+            }
+        }
+        else
+        {
+            gameObject.SetActive(false);
+            isCasted = false;
         }
     }
 }

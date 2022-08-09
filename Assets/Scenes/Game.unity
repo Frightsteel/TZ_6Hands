@@ -642,7 +642,7 @@ GameObject:
   - component: {fileID: 665321876}
   - component: {fileID: 665321875}
   m_Layer: 0
-  m_Name: Player Spawner
+  m_Name: Spawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -662,6 +662,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerPF: {fileID: 8326697121110695435, guid: 4aedccee2fe11e740955476f37c9b578, type: 3}
   vCam: {fileID: 586456865}
+  poolSize: 3
+  autoExpand: 1
+  fireballPF: {fileID: 4558413435546896845, guid: be084d7a313cd08409f9a74d21ce7c50, type: 3}
 --- !u!4 &665321876
 Transform:
   m_ObjectHideFlags: 0
@@ -670,7 +673,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 665321874}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.81992006, y: 1.1179211, z: 1.1868894}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

@@ -2167,10 +2167,11 @@ GameObject:
   - component: {fileID: 9173611696212615971}
   - component: {fileID: 9173611696212615968}
   - component: {fileID: 1235016768989487242}
+  - component: {fileID: 7290519853961867820}
   - component: {fileID: 9173611696212615975}
   - component: {fileID: 9173611695277332839}
-  - component: {fileID: 1643424257333499850}
   - component: {fileID: 4289940504512410057}
+  - component: {fileID: 1643424257333499850}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -2333,9 +2334,24 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 1
   fireballProjectilePF: {fileID: 6255655432809871342, guid: be084d7a313cd08409f9a74d21ce7c50, type: 3}
-  spawnFireballPosition: {fileID: 1139953876}
+  shootPoint: {fileID: 1139953876}
   _animator: {fileID: 9173611696212615969}
   skillDamage: 10
+--- !u!114 &7290519853961867820
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8326697121110695435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ab2c0a71d6f9214bb36ea86f382b77f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animator: {fileID: 9173611696212615969}
+  hp: 100
+  mana: 100
 --- !u!114 &9173611696212615975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2481,44 +2497,11 @@ MonoBehaviour:
   OwnershipTransfer: 0
   observableSearch: 2
   ObservedComponents:
-  - {fileID: 1643424257333499850}
   - {fileID: 4289940504512410057}
+  - {fileID: 1643424257333499850}
   sceneViewId: 0
   InstantiationId: 0
   isRuntimeInstantiated: 0
---- !u!114 &1643424257333499850
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8326697121110695435}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_PositionModel:
-    SynchronizeEnabled: 1
-    TeleportEnabled: 1
-    TeleportIfDistanceGreaterThan: 3
-    InterpolateOption: 2
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 1
-    ExtrapolateOption: 0
-    ExtrapolateSpeed: 1
-    ExtrapolateIncludingRoundTripTime: 1
-    ExtrapolateNumberOfStoredPositions: 1
-  m_RotationModel:
-    SynchronizeEnabled: 1
-    InterpolateOption: 1
-    InterpolateRotateTowardsSpeed: 180
-    InterpolateLerpSpeed: 5
-  m_ScaleModel:
-    SynchronizeEnabled: 0
-    InterpolateOption: 0
-    InterpolateMoveTowardsSpeed: 1
-    InterpolateLerpSpeed: 0
 --- !u!114 &4289940504512410057
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2552,11 +2535,47 @@ MonoBehaviour:
   - Type: 4
     SynchronizeType: 1
     Name: Cast
+  - Type: 9
+    SynchronizeType: 0
+    Name: Death
   m_SynchronizeLayers:
   - SynchronizeType: 0
     LayerIndex: 0
   - SynchronizeType: 0
     LayerIndex: 1
+--- !u!114 &1643424257333499850
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8326697121110695435}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8efc6b1d64977384eb3405357896c656, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_PositionModel:
+    SynchronizeEnabled: 1
+    TeleportEnabled: 1
+    TeleportIfDistanceGreaterThan: 3
+    InterpolateOption: 2
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 1
+    ExtrapolateOption: 0
+    ExtrapolateSpeed: 1
+    ExtrapolateIncludingRoundTripTime: 1
+    ExtrapolateNumberOfStoredPositions: 1
+  m_RotationModel:
+    SynchronizeEnabled: 1
+    InterpolateOption: 1
+    InterpolateRotateTowardsSpeed: 180
+    InterpolateLerpSpeed: 5
+  m_ScaleModel:
+    SynchronizeEnabled: 0
+    InterpolateOption: 0
+    InterpolateMoveTowardsSpeed: 1
+    InterpolateLerpSpeed: 0
 --- !u!1 &8858592115015584634
 GameObject:
   m_ObjectHideFlags: 0
