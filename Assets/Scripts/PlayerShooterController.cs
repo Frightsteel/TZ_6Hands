@@ -91,7 +91,7 @@ public class PlayerShooterController : MonoBehaviour
 
     private void Skill()
     {
-        if (_input.skill)
+        if (_input.skill && GetComponent<PlayerStats>().mana >= 25f)//temp
         {
             //rotate player to look at aim point
             RotatePlayerToLookAtPoint(GetMouseWorldPosition());
@@ -99,7 +99,7 @@ public class PlayerShooterController : MonoBehaviour
             if (!isCasting)
             {
                 isCasting = true;
-
+                GetComponent<PlayerStats>().ChangeManaPool(-25f);//temp
                 timer = Time.time;
 
                 //start to cast the skill

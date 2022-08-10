@@ -2350,8 +2350,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _animator: {fileID: 9173611696212615969}
-  hp: 100
+  health: 100
   mana: 100
+  manaAutoRegeneration: 1
+  manaAutoRegenerationValue: 4
+  healthAutoRegeneration: 0
+  healthAutoRegenerationValue: 0
+  healthBar: {fileID: 0}
+  manaBar: {fileID: 0}
 --- !u!114 &9173611696212615975
 MonoBehaviour:
   m_ObjectHideFlags: 0

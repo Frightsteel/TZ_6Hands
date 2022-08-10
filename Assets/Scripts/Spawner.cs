@@ -9,6 +9,8 @@ public class Spawner : MonoBehaviour
 {
     [SerializeField] private GameObject playerPF;
     [SerializeField] private GameObject vCam;
+    [SerializeField] private GameObject healthBar;
+    [SerializeField] private GameObject manaBar;
 
     [SerializeField] private int poolSize;
     [SerializeField] private bool autoExpand;
@@ -23,9 +25,12 @@ public class Spawner : MonoBehaviour
         if (player.GetComponent<PhotonView>().IsMine)
         {
             vCam.GetComponent<CinemachineVirtualCamera>().Follow = player.GetComponent<ThirdPersonController>().CinemachineCameraTarget.transform;
+            player.GetComponent<PlayerStats>().healthBar = healthBar.GetComponent<HealthBar>();
+            player.GetComponent<PlayerStats>().manaBar = manaBar.GetComponent<ManaBar>();
+
         }
 
-        this.fireballPool = new PoolMono<MonoBehaviour>(fireballPF, poolSize, transform);
-        this.fireballPool.autoExpand = this.autoExpand;
+        fireballPool = new PoolMono<MonoBehaviour>(fireballPF, poolSize, transform);
+        fireballPool.autoExpand = autoExpand;
     }
 }
