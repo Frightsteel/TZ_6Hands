@@ -15,12 +15,13 @@ public class Spawner : MonoBehaviour
     [SerializeField] private int poolSize;
     [SerializeField] private bool autoExpand;
     [SerializeField] private MonoBehaviour fireballPF;
+    [SerializeField] private Transform[] spawnPoints;
 
     public PoolMono<MonoBehaviour> fireballPool { get; private set; }
 
     void Start()
     {
-        GameObject player = PhotonNetwork.Instantiate(playerPF.name, new Vector3(0, 5, 0), Quaternion.identity);
+        GameObject player = PhotonNetwork.Instantiate(playerPF.name, spawnPoints[PhotonNetwork.CurrentRoom.PlayerCount - 1].position, Quaternion.identity);
         
         if (player.GetComponent<PhotonView>().IsMine)
         {
