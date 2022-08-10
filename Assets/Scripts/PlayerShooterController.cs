@@ -27,6 +27,7 @@ public class PlayerShooterController : MonoBehaviour
 
     [SerializeField] private float skillDamage;
     private float skillDamageSUM;
+    private float skillCooldown;
 
     private PhotonView view;
 
