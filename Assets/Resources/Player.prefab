@@ -2329,13 +2329,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 338bc4f380f359d44a75ab38d0434cc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _input: {fileID: 9173611696212615968}
+  input: {fileID: 9173611696212615968}
   aimColliderLayerMask:
     serializedVersion: 2
     m_Bits: 1
   fireballProjectilePF: {fileID: 6255655432809871342, guid: be084d7a313cd08409f9a74d21ce7c50, type: 3}
   shootPoint: {fileID: 1139953876}
-  _animator: {fileID: 9173611696212615969}
+  animator: {fileID: 9173611696212615969}
   skillDamage: 10
 --- !u!114 &7290519853961867820
 MonoBehaviour:
@@ -2349,15 +2349,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ab2c0a71d6f9214bb36ea86f382b77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _animator: {fileID: 9173611696212615969}
+  animator: {fileID: 9173611696212615969}
+  healthBar: {fileID: 0}
+  manaBar: {fileID: 0}
   health: 100
   mana: 100
   manaAutoRegeneration: 1
   manaAutoRegenerationValue: 4
-  healthAutoRegeneration: 0
-  healthAutoRegenerationValue: 0
-  healthBar: {fileID: 0}
-  manaBar: {fileID: 0}
 --- !u!114 &9173611696212615975
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
 
@@ -25,6 +23,12 @@ public class Projectile : MonoBehaviour
         }
     }
 
+    private void OffProjectile()
+    {
+        gameObject.SetActive(false);
+        isCasted = false;
+    }
+
     private void OnTriggerEnter(Collider other)
     {
         if (other.GetComponent<PhotonView>() != null)
@@ -32,14 +36,12 @@ public class Projectile : MonoBehaviour
             if (other.GetComponent<PhotonView>().ViewID != castUser)
             {
                 other.GetComponent<IDamageable>().TakeDamage(damage);
-                gameObject.SetActive(false);
-                isCasted = false;
+                OffProjectile();
             }
         }
         else
         {
-            gameObject.SetActive(false);
-            isCasted = false;
+            OffProjectile();
         }
     }
 }
