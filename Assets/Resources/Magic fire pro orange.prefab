@@ -41,7 +41,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1391166784905805657}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 120
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 1
@@ -4865,7 +4865,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1826243274180142371}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 120
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 3
@@ -9696,7 +9696,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4636591891060312578}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 120
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 1
@@ -14493,6 +14493,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 20
   spawnPoint: {fileID: 0}
+  castUser: 0
+  damage: 0
   isCasted: 0
 --- !u!54 &-1213260381595452827
 Rigidbody:
@@ -14564,7 +14566,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4821086661163696029}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 120
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 1
@@ -19388,7 +19390,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6036234385556935581}
   serializedVersion: 8
-  lengthInSec: 5
+  lengthInSec: 120
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 1
