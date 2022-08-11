@@ -1,31 +1,26 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using Photon.Pun;
-using UnityEngine.UI;
 
 public class PlayerStats : MonoBehaviour, IDamageable
 {
     [Space]
-    [SerializeField] private Animator _animator;
+    [SerializeField] private Animator animator;
+    [Space]
+    public HealthBar healthBar;
+    public ManaBar manaBar;
     [Space]
     public float health;
     public float mana;
-    public bool manaAutoRegeneration;
-    public float manaAutoRegenerationValue;
-    public bool healthAutoRegeneration;
-    public float healthAutoRegenerationValue;
+    [SerializeField] private bool manaAutoRegeneration;
+    [SerializeField] private float manaAutoRegenerationValue;
     //[SerializeField] private float criticalChance;
     //[SerializeField] private float dodgeChance;
 
     private float maxHealth;
     private float maxMana;
 
-    public HealthBar healthBar;
-    public ManaBar manaBar;
-
     // animations IDs
-    private int _animIDDeath;
+    private int animIDDeath;
 
     private PhotonView view;
 
@@ -46,18 +41,12 @@ public class PlayerStats : MonoBehaviour, IDamageable
     private void Update()
     {
         if (manaAutoRegeneration && mana < maxMana)
-        {
             ChangeManaPool(manaAutoRegenerationValue * Time.deltaTime);
-        }
-        //if (healthAutoRegeneration)
-        //{
-        //    health += healthAutoRegenerationValue * Time.deltaTime;
-        //}
     }
 
     private void AssignAnimationIDs()
     {
-        _animIDDeath = Animator.StringToHash("Death");
+        animIDDeath = Animator.StringToHash("Death");
     }
 
     public void ChangeManaPool(float value)
@@ -76,13 +65,9 @@ public class PlayerStats : MonoBehaviour, IDamageable
     {
         health -= damage;
         if (view.IsMine)
-        {
             healthBar.ChangeValue(health);
-        }
         
         if (health <= 0)
-        {
-            _animator.SetTrigger(_animIDDeath);
-        }
+            animator.SetTrigger(animIDDeath);
     }
 }
